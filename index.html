@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeFast - Typing Speed Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+<base target="_blank">
+</head>
+<body>
+    <div class="mesh-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"></path>
+            </svg>
+            <span class="logo-text">TypeFast</span>
+        </div>
+        <div class="header-controls">
+            <button class="btn-icon" id="soundToggle" aria-label="Toggle sound">
+                <svg id="soundOnIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                <svg id="soundOffIcon" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+            </button>
+            <button class="btn-icon" id="themeToggle" aria-label="Toggle theme">
+                <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg id="sunIcon" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="stats-bar" aria-live="polite">
+            <div class="stat-card" id="wpmCard">
+                <div class="stat-value" id="wpmValue">0</div>
+                <div class="stat-label">WPM</div>
+            </div>
+            <div class="stat-card" id="accuracyCard">
+                <div class="stat-value" id="accuracyValue">100%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card" id="timeCard">
+                <div class="stat-value" id="timeValue">60</div>
+                <div class="stat-label">Time</div>
+            </div>
+            <div class="stat-card" id="charsCard">
+                <div class="stat-value" id="charsValue">0/0</div>
+                <div class="stat-label">Chars</div>
+            </div>
+        </div>
+
+        <div class="combo-display" id="comboDisplay"></div>
+
+        <div class="timer-track">
+            <div class="timer-progress" id="timerProgress"></div>
+        </div>
+
+        <div class="typing-container" id="typingContainer">
+            <div class="typing-card" id="typingCard">
+                <input type="text" class="hidden-input" id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Type here">
+                <div class="text-display" id="textDisplay"></div>
+            </div>
+            <p class="focus-hint" id="focusHint">Click here or press any key to start</p>
+        </div>
+
+        <div class="wpm-graph" id="wpmGraph">
+            <svg class="graph-svg" id="graphSvg" viewBox="0 0 100 40" preserveAspectRatio="none">
+                <polyline class="graph-line" id="graphLine" fill="none" stroke="rgba(139,92,246,0.5)" stroke-width="0.5" points=""/>
+                <g id="graphDots"></g>
+            </svg>
+        </div>
+
+        <div class="controls">
+            <button class="btn-primary" id="restartBtn" aria-label="Restart test">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                Restart
+            </button>
+            <div class="duration-toggle" role="radiogroup" aria-label="Select duration">
+                <button class="duration-btn active" data-duration="15" role="radio" aria-checked="true">15s</button>
+                <button class="duration-btn" data-duration="30" role="radio" aria-checked="false">30s</button>
+                <button class="duration-btn" data-duration="60" role="radio" aria-checked="false">60s</button>
+            </div>
+        </div>
+
+        <section class="history-section" id="historySection">
+            <h2 class="section-title">Recent Tests</h2>
+            <div class="history-list" id="historyList">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-illustration">
+                        <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="10" y="20" width="100" height="50" rx="4" ry="4"></rect>
+                            <path d="M20 35h20M20 45h40M20 55h30"></path>
+                            <rect x="85" y="30" width="15" height="10" rx="2" ry="2"></rect>
+                            <path d="M92 33v4M95 35h-6"></path>
+                        </svg>
+                    </div>
+                    <p class="empty-text">Start typing to see your stats</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Press <kbd>Tab</kbd> to restart · <kbd>Esc</kbd> to stop</p>
+    </footer>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="result-modal" id="resultModal" role="dialog" aria-modal="true" aria-label="Test results">
+            <div class="modal-header">
+                <div class="rank-badge" id="rankBadge"></div>
+                <h2 class="modal-title">Test Complete!</h2>
+            </div>
+            <div class="modal-stats">
+                <div class="modal-stat main-stat">
+                    <div class="modal-stat-value" id="modalWpm">0</div>
+                    <div class="modal-stat-label">WPM</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-value" id="modalAccuracy">0%</div>
+                    <div class="modal-stat-label">Accuracy</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-value" id="modalRawWpm">0</div>
+                    <div class="modal-stat-label">Raw WPM</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-value" id="modalChars">0/0</div>
+                    <div class="modal-stat-label">Correct/Wrong</div>
+                </div>
+            </div>
+            <div class="pb-celebration" id="pbCelebration">
+                <div class="pb-flash">NEW RECORD!</div>
+                <div class="pb-value">Personal Best: <span id="pbValue">0</span> WPM</div>
+            </div>
+            <div class="next-rank" id="nextRank"></div>
+            <div class="heatmap-section">
+                <h3 class="heatmap-title">Accuracy Heatmap</h3>
+                <div class="heatmap-keyboard" id="heatmapKeyboard"></div>
+            </div>
+            <button class="btn-primary btn-large" id="tryAgainBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
